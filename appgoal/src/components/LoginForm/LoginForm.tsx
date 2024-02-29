@@ -1,11 +1,10 @@
+// LoginForm.tsx
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 interface LoginFormProps {
   onLoginSuccess: () => void;
 }
-
-
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -38,6 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
       if (response.ok) {
         console.log('Inicio de sesión exitoso:', response);
+        localStorage.setItem('isLoggedIn', 'true'); // Guardar estado de autenticación en el almacenamiento local
         onLoginSuccess();
         router.push('/systems');
       } else {

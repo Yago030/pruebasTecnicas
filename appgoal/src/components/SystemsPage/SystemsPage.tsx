@@ -4,47 +4,54 @@ import { useRouter } from 'next/router';
 const SystemsPage: React.FC = () => {
   const router = useRouter();
   const [assets, setAssets] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      try {
-        const isLoggedIn = localStorage.getItem('isLoggedIn'); // Obtener el estado de autenticación
-        if (isLoggedIn === 'true') {
-          await fetchAssets(); // Cargar los activos si está autenticado
-        } else {
-          router.push('/login'); // Redirigir al usuario a /login si no está autenticado
-        }
-      } catch (error) {
-        console.error('Error al verificar la autenticación:', error);
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      setIsLoggedIn(isLoggedIn === 'true');
+      if (isLoggedIn !== 'true') {
+        console.log('Usuario no autenticado. Redirigiendo a /login...');
+        router.push('/login');
+      } else {
+        console.log('Usuario autenticado. Cargando activos...');
+        fetchAssets();
       }
     };
 
-    checkAuthentication(); // Llamar a la función de verificación de autenticación al cargar el componente
-  }, [router]);
+    checkAuthentication();
+  }, []); // Solo se ejecuta una vez cuando se carga la página, gracias al arreglo de dependencias vacío []
 
   const fetchAssets = async () => {
     try {
       const response = await fetch('https://api.saldo.com.ar/v3/systems');
       if (response.ok) {
         const data = await response.json();
-        setAssets(data.data); // Asegúrate de asignar data.data para obtener el array de activos
+        setAssets(data.data);
       } else {
         console.error('Error al obtener la lista de activos');
       }
     } catch (error) {
       console.error('Error al obtener la lista de activos:', error);
-    } finally {
-      setLoading(false); // Establecer loading en false después de cargar los activos
     }
   };
 
-  if (loading) {
-    return <div>Cargando...</div>; // Mostrar un mensaje de carga mientras se carga la lista de activos
-  }
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    router.push('/login');
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 text-lg">
+      {/* Mostrar el nombre del usuario y el enlace de cierre de sesión si está autenticado */}
+      {isLoggedIn && (
+        <div className="flex justify-between items-center mb-4">
+          <p>Hola, Admin SaldoAr</p>
+          <button onClick={handleLogout} className="bg-red-500 text-white px-3 py-1 rounded-md">Cerrar sesión</button>
+        </div>
+      )}
+
       <h1 className="text-3xl font-bold mb-4">Systems Page</h1>
       <h2 className="text-xl font-semibold mb-2">Activos disponibles:</h2>
       <ul className="grid grid-cols-4 gap-4">
