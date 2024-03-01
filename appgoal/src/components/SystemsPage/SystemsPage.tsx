@@ -9,6 +9,7 @@ const SystemsPage: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
   const [selectedAssetPrices, setSelectedAssetPrices] = useState<any[]>([]);
+  const [showPrices, setShowPrices] = useState(false); // Estado para mostrar o ocultar los precios
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -52,10 +53,14 @@ const SystemsPage: React.FC = () => {
       const prices = await fetchPricesForAsset(assetId);
       console.log('Precios del activo:', prices);
       setSelectedAssetPrices(prices.data.attributes.trend); // Actualizamos el estado con los precios obtenidos
-      console.log(prices);
+      setShowPrices(true); // Mostramos los precios al hacer clic en un activo
     } catch (error) {
       console.error('Error al obtener los precios del activo:', error);
     }
+  };
+
+  const togglePrices = () => {
+    setShowPrices(!showPrices); // Cambiamos el estado para mostrar u ocultar los precios
   };
 
   return (
@@ -70,18 +75,25 @@ const SystemsPage: React.FC = () => {
       <h1 className="text-3xl font-bold mb-4">Systems Page</h1>
       <h2 className="text-xl font-semibold mb-2">Activos disponibles:</h2>
       <ul className="grid grid-cols-4 gap-4">
-        {assets.length > 0 ? (
-          assets.map((asset: any) => (
-            <li key={asset.id} className="bg-cyan-500 bg-00CC99 p-4 rounded-md shadow-md" onClick={() => handleAssetClick(asset.id)}>
-              <span className="text-lg">{asset.attributes.name}</span>
-            </li>
-          ))
-        ) : (
-          <li className="text-gray-500">No hay activos disponibles</li>
-        )}
-      </ul>
+          {assets.length > 0 ? (
+           assets.map((asset: any) => (
+           <li key={asset.id} className="bg-cyan-500 bg-00CC99 p-4 rounded-md shadow-md hover:bg-green-200" onClick={() => handleAssetClick(asset.id)}>
+                <span className="text-lg">{asset.attributes.name}</span>
+             </li>
+         ))
+          ) : (
+         <li className="text-center text-lg text-gray-500 font-semibold border border-gray-300 m-4">No hay activos disponibles</li>
+       )}
+    </ul>
 
-      {selectedAsset && <AssetPrices prices={selectedAssetPrices} />} {/* Pasamos los precios como prop al componente AssetPrices */}
+
+      {/* Mostrar u ocultar los precios */}
+      {selectedAsset && (
+        <div>
+          <h2 onClick={togglePrices} className="cursor-pointer p-4 m-2 rounded-md  hover:bg-green-200  ">Precios del activo:</h2>
+          {showPrices && <AssetPrices prices={selectedAssetPrices} />}
+        </div>
+      )}
     </div>
   );
 };
