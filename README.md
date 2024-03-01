@@ -3,10 +3,18 @@
 Una pequeña app de prueba para usar la api brindada para la prueba tecnica
 ## Descripción
 
-Este proyecto es una aplicación de prueba donde los usuarios pueden iniciar sesión. Si las credenciales son proporcionadas, se les permite acceder a los datos de los sistemas.
-En caso que ingrese mal la ruta se lo reedirige a /systems o /login dependiendo de su autenticacion de logueo
-tambien se pueden ver todos los sitemas y divisas operadas y desplegar el valor de estos (trend)
-Es importante tener en cuenta que al acceder a la API, el objetivo "amount" era indispensable para ver el valor de la divisa actual. Sin embargo, no era posible obtenerlo, lo que resulto en el uso de la variable "trend" para poder usar de ejemplo.
+- Este proyecto es una aplicación de prueba donde los usuarios pueden iniciar sesión. Si las credenciales son proporcionadas, se les permite acceder a los datos de los sistemas.
+
+- En caso de ingresar mal la ruta, se lo redirige a /systems o /login dependiendo de su autenticación de inicio de sesión.
+
+- También se pueden ver todos los sistemas y divisas operadas y desplegar el valor de estos (trend).
+
+- Es importante tener en cuenta que al acceder a la API, el objetivo "amount" era indispensable para ver el valor de la divisa actual. Sin embargo, no era posible obtenerlo, lo que resultó en el uso de la variable "trend" para poder utilizarlo como ejemplo.
+
+- Puedes desplegar u ocultar el valor de trend.
+
+- Se puede cerrar sesión desde el propio botón superior.
+
 ## Configuración
 para poder instalar todas las utilidades y bibliotecas utiles
 npm install axios@^1.6.7 next@14.1.0 react@^18 react-dom@^18 react-router-dom@^6.22.2
