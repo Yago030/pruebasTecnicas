@@ -19,6 +19,6 @@ Debes correr el servidor en local antes de usarlo.
 
 ## Contribuciones
 
-Sque info de chat gpt y varios foros mas
+Informacion obtenida de chat gpt, foros y videos de youtube para poder llevarlo a cabo, si bien fue llevado en una version anterior de next, no me dio tiempo para la migracion del mismo, desde ya, gracias por la oportunidad brindada.
 
 
