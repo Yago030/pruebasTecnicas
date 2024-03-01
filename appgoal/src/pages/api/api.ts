@@ -1,15 +1,20 @@
-//probando sin axios , usando fetch
+// api.ts
+
 import axios from 'axios';
 
-export const login = async (email: string, password: string) => {
+interface AssetPrice {
+  pair: string;
+  price: number;
+}
+
+export async function fetchPricesForAsset(assetId: string): Promise<AssetPrice[]> {
+  console.log(assetId);
   try {
-    const response = await axios.post('https://api.saldo.com.ar/login', {
-      email,
-      password,
-    });
+    const response = await axios.get(`https://api.saldo.com.ar/v3/systems/${assetId}`);
+    
     return response.data;
   } catch (error) {
-    console.error('Error al iniciar sesión:', error);
-    throw error;
+    console.error('Error fetching asset prices:', error);
+    return [];
   }
-};
+}
