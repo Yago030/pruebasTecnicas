@@ -9,7 +9,8 @@ const SystemsPage: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
   const [selectedAssetPrices, setSelectedAssetPrices] = useState<any[]>([]);
-  const [showPrices, setShowPrices] = useState(false); // Estado para mostrar o ocultar los precios
+  const [showPrices, setShowPrices] = useState(false); // Estado para mostrar u ocultar los precios
+  const [username, setUsername] = useState<string>(''); // Estado para almacenar el nombre de usuario
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -21,6 +22,7 @@ const SystemsPage: React.FC = () => {
       } else {
         console.log('Usuario autenticado. Cargando activos...');
         fetchAssets();
+        setUsername('Admin SaldoAr'); // Establece el nombre de usuario cuando el usuario está autenticado
       }
     };
 
@@ -52,22 +54,22 @@ const SystemsPage: React.FC = () => {
     try {
       const prices = await fetchPricesForAsset(assetId);
       console.log('Precios del activo:', prices);
-      setSelectedAssetPrices(prices.data.attributes.trend); // Actualizamos el estado con los precios obtenidos
-      setShowPrices(true); // Mostramos los precios al hacer clic en un activo
+      setSelectedAssetPrices(prices.data.attributes.trend); // Actualiza el estado con los precios obtenidos. el amount no me funcionó , por lo cual use la variable "trend" que era variable
+      setShowPrices(true); 
     } catch (error) {
       console.error('Error al obtener los precios del activo:', error);
     }
   };
 
   const togglePrices = () => {
-    setShowPrices(!showPrices); // Cambiamos el estado para mostrar u ocultar los precios
+    setShowPrices(!showPrices); // Cambia el estado para mostrar u ocultar los precios
   };
 
   return (
     <div className="container mx-auto px-4 py-8 text-lg">
       {isLoggedIn && (
         <div className="flex justify-between items-center mb-4">
-          <p>Hola, Admin SaldoAr</p>
+          <p>Hola, {username}</p>
           <button onClick={handleLogout} className="bg-red-500 text-white px-3 py-1 rounded-md">Cerrar sesión</button>
         </div>
       )}
