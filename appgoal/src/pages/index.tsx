@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-green-400 to-green-600">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-green-200 via-white to-green-600">
       {!loggedIn ? <LoginForm onLoginSuccess={handleLoginSuccess} /> : <SystemsPage />}
     </div>
   );
